@@ -1,0 +1,45 @@
+class Solution{
+  public:
+  vector<long long int> countZero(int n, int k, vector<vector<int>>& arr){
+     vector <int> rvisited(n + 1, 0);
+     vector <int> cvisited(n + 1, 0);
+     vector <long long int> ans;
+     int row = n;
+     int clm = n;
+     int zeroes = n*n;
+     //cout<<zeroes<<endl;
+     
+     for(int i = 0; i < k; i++){
+         if(rvisited[arr[i][0]] == 0 && cvisited[arr[i][1]] == 0){
+            zeroes = zeroes - row - clm + 1;
+            //cout<<zeroes<<endl;
+            ans.push_back(zeroes);
+            rvisited[arr[i][0]] = 1;
+            cvisited[arr[i][1]] = 1;
+            row--;
+            clm--;
+         }
+         else if(rvisited[arr[i][0]] == 1 && cvisited[arr[i][1]] == 0){
+            zeroes = zeroes - clm;
+           // cout<<zeroes<<endl;
+            ans.push_back(zeroes);
+            cvisited[arr[i][1]] = 1;
+            row--;
+         }
+         else if(rvisited[arr[i][0]] == 0 && cvisited[arr[i][1]] == 1){
+            zeroes = zeroes - row;
+           // cout<<zeroes<<endl;
+            ans.push_back(zeroes);
+            rvisited[arr[i][0]] = 1;
+            clm--;
+         }
+         else if(rvisited[arr[i][0]] == 1 && cvisited[arr[i][1]] == 1){
+            // cout<<zeroes<<endl;
+            ans.push_back(zeroes);
+         }
+         
+         
+     }
+     return ans;
+  }
+};

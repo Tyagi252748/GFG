@@ -1,0 +1,14 @@
+class Solution {
+  public:
+    long long int nthFibonacci(long long int n){
+         int modulo = 1000000007;
+        vector<long long int> fibonaci(n + 1);
+        fibonaci[0] = 0;
+        fibonaci[1] = 1;
+        
+        for(int i = 2; i <= n;i++){
+            fibonaci[i] = (fibonaci[i-1] + fibonaci[i-2])%modulo;
+            }
+        return fibonaci[n];
+    }
+};

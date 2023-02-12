@@ -1,0 +1,33 @@
+class Solution{
+  public:
+  int i = 0;
+  
+  void postorder_traversal(Node* root, vector<int> &inorder){
+      if(root == NULL){
+          return;
+      }
+      else{
+          postorder_traversal(root->left, inorder);
+          postorder_traversal(root->right, inorder);
+          root->data = inorder[i++];
+          
+      }
+  }
+  void inorder_traversal(Node* root, vector<int> &inorder){
+      if(root == NULL){
+          return;
+      }
+      else{
+          inorder_traversal(root->left, inorder);
+          inorder.push_back(root->data);
+          inorder_traversal(root->right, inorder);
+          
+      }
+  }
+    void convertToMaxHeapUtil(Node* root)
+    {
+        vector<int> inorder;
+        inorder_traversal(root, inorder);
+        postorder_traversal(root, inorder);
+    }    
+};

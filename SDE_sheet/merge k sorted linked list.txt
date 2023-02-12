@@ -1,0 +1,44 @@
+class Solution{
+
+  public:
+  class compare{
+      public:
+      bool operator()(Node* a, Node* b){
+          return a->data > b->data;
+      }
+  };
+    //Function to merge K sorted linked list.
+    Node * mergeKLists(Node *arr[], int K)
+    {
+        priority_queue<Node*, vector<Node*>, compare> minheap;
+        
+        for(int i = 0; i < K; i++){
+            if(arr[i] != NULL){
+                minheap.push(arr[i]);
+            }
+        }
+        
+        Node* head = NULL;
+        Node* tail = NULL;
+        
+        while(minheap.size() > 0){
+            Node* top = minheap.top();
+            minheap.pop();
+            
+            if(top->next != NULL){
+                minheap.push(top->next);
+            }
+            
+            if(head == NULL){
+                head = top;
+                tail = top;
+            }
+            else{
+                tail->next = top;
+                tail = top;
+            }
+            
+        }
+        return head;
+    }
+};

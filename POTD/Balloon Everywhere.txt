@@ -1,0 +1,17 @@
+class Solution{
+public:
+    int maxInstance(string s){
+        char ch;
+        int freq[26] = {0}; 
+        for(int i = 0; i < s.length(); i++){
+            ch = s[i];
+            freq[ch - 'a']++;
+        }
+        int min1 = min(min(freq[0], freq[1]), freq[13]);
+        int min2 = min(freq[11], freq[14]);
+        int count = min(min1, min2/2);
+        
+        
+        return count;
+    }
+};
