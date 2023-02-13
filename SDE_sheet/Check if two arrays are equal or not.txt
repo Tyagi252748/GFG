@@ -1,0 +1,43 @@
+class Solution{
+    public:
+
+    //Function to check if two arrays are equal or not.
+    bool check(vector<ll> A, vector<ll> B, int N) {
+       sort(A.begin(), A.end());
+       sort(B.begin(), B.end());
+       
+       for(int i = 0; i < N; i++){
+           if(A[i] != B[i]){
+               return false;
+               break;
+           }
+       }
+       return true;
+    }
+};
+
+
+                         OR
+
+class Solution{
+    public:
+
+    //Function to check if two arrays are equal or not.
+    bool check(vector<ll> A, vector<ll> B, int N) {
+       unordered_map<ll, ll> freq;
+       for(int  i = 0;i < N;i++){
+           freq[A[i]]++;
+       }
+       for(int i = 0;i < N; i++){
+           freq[B[i]]--;
+       }
+       unordered_map<ll, ll> :: const_iterator it;
+       for(it = freq.begin(); it != freq.end(); it++){
+           if(it->second != 0){
+               return false;
+               break;
+           }
+       }
+       return true;
+    }
+};

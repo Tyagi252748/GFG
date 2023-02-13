@@ -1,0 +1,43 @@
+class Solution{
+public:
+    bool isprime(int value){
+        bool flag = true;
+        for(int i = 2; i <= sqrt(value); i++){
+            if(value % i == 0){
+                flag = false;
+                break;
+            }
+        }
+        return flag;
+    }
+    Node *primeList(Node *head){
+    Node* temp = head;
+    while(temp != NULL){
+        int data = temp->val;
+        if(temp->val == 1){
+            temp->val = 2;
+            temp = temp->next;
+        }else{
+            int prev = data;
+            int ahead  =data+1;
+            while(!isprime(prev)){
+                prev--;
+            }
+            while(!isprime(ahead)){
+                ahead++;
+            }
+            if(data - prev < ahead - data){
+                temp->val = prev;
+            }
+            else if(data - prev > ahead - data){
+                temp->val = ahead;
+            }
+            else{
+                temp->val = prev;
+            }
+            temp = temp->next;
+        }
+    }
+    return head;
+    }
+};

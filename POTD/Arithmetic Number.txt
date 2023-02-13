@@ -1,0 +1,19 @@
+class Solution{
+public:
+    int inSequence(int A, int B, int C){
+        if(A == B){
+            return 1;
+        }
+        float n = ((B+.0 - A+.0)/C+.0) + 1.0;
+        //float y = 1.0/3.0;
+        //cout<<n<<endl;
+        int x = n;
+        int ans = 0;
+        if(n > 0 && n - x == 0){
+            ans = 1; 
+        }
+        
+        return ans ;
+        
+    }
+};
