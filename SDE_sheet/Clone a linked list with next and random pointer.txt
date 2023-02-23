@@ -1,0 +1,46 @@
+class Solution
+{
+    public:
+    void insertAtTail(Node *&head, Node *&tail, int data){
+        Node * newnode = new Node(data);
+        if(head == NULL){
+            head = newnode;
+            tail = newnode;
+            return;
+        }
+        else{
+            tail->next = newnode;
+            tail = tail->next;
+        }
+    }
+    Node *copyList(Node *head)
+    {
+        Node* clonehead = NULL;
+        Node* clonetail = NULL;
+        
+        Node* temp = head;
+        
+        while(temp != NULL){
+            insertAtTail(clonehead, clonetail, temp->data);
+            temp = temp->next;
+        }
+        
+        unordered_map<Node*, Node*> oldToNew;
+        Node* originalNode = head;
+        Node* clonenode = clonehead;
+        while(originalNode != NULL ){
+            oldToNew[originalNode] = clonenode;
+            originalNode = originalNode->next;
+            clonenode = clonenode->next;
+        }
+        originalNode = head;
+        clonenode = clonehead;
+        while(originalNode != NULL){
+            clonenode->arb = oldToNew[originalNode->arb];
+            originalNode = originalNode->next;
+            clonenode = clonenode->next;
+        }
+        return clonehead;
+    }
+
+};
