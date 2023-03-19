@@ -1,0 +1,26 @@
+class Solution{
+  public:
+    int minOperations(int arr[], int n, int k) {
+        priority_queue<int, vector<int>, greater<int>> pq;
+        for(int i = 0 ; i < n; i++){
+            pq.push(arr[i]);
+        }
+        int top = pq.top();
+        if(top >= k)return 0;
+        int operation = 0;
+        while(top < k && pq.size() > 1){
+            operation++;
+            int top1 = pq.top();
+            pq.pop();
+            int top2 = pq.top();
+            pq.pop();
+            pq.push(top1 + top2);
+            top = pq.top();
+        }
+        if(pq.size() == 1 && top < k){
+            return -1;
+        }else{
+            return operation;
+        }
+    }
+};

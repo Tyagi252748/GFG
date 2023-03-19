@@ -1,0 +1,10 @@
+class Solution{
+public:
+    vector<int> optimalArray(int n,vector<int> &a){
+        vector<int> ans(n);
+        for(int i = 0; i < n; i++){
+            ans[i] = ans[i - 1] + a[i] - a[i/2];
+        }
+        return ans;
+    }
+};

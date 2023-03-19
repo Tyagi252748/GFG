@@ -1,0 +1,41 @@
+class Solution{
+public:
+    vector<int> minPartition(int N)
+    {
+        int coin[] = {2000,500,200,100,50,20,10,5,2,1};
+        vector<int> ans;
+        while(N > 0){
+            for(int i = 0; i < 10; i++){
+                int x = N/coin[i];
+                if(x > 0){
+                    while(x--){
+                        ans.push_back(coin[i]);
+                    }
+                
+                }
+                N = N % coin[i];
+            }
+        }
+        return ans;
+    }
+};
+                                  OR
+
+class Solution{
+public:
+    vector<int> minPartition(int N)
+    {
+        int coin[] = {2000,500,200,100,50,20,10,5,2,1};
+        vector<int> ans;
+        int idx = 0;
+        while(N > 0){
+            if(N >= coin[idx]){
+            ans.push_back(coin[idx]);
+            N = N-coin[idx];
+            }else{
+                idx++;
+            }
+        }
+        return ans;
+    }
+};

@@ -1,0 +1,106 @@
+                                          WITH TLE
+
+class Solution {
+  public:
+  static bool ispossible(int newx, int newy, vector<vector<bool>> &vis, vector<vector<int>> &grid, int n, int m){
+      if(newx >= 0 && newx < n && newy >= 0 && newy < m){
+          if(vis[newx][newy] != 1 && grid[newx][newy] == 1){
+              return true;
+          }
+      }
+      else{
+          return false;
+      }
+  }
+    void solve(int x, int y, vector<vector<bool>> &vis, vector<vector<int>> &grid, int &ans, int n, int m){
+        if(x == n - 1 && y == m - 1){
+            ans++;
+            return;
+        }
+        //right
+        if(ispossible(x, y + 1, vis, grid, n, m)){
+            vis[x][y + 1] = 1;
+            solve(x, y + 1, vis, grid, ans, n, m);
+            vis[x][y + 1] = 0;
+        }
+        // down
+        if(ispossible(x + 1, y, vis, grid, n, m)){
+            vis[x + 1][y] = 1;
+            solve(x + 1, y, vis, grid, ans, n, m);
+            vis[x + 1][y] = 0;
+        }
+    }
+    int uniquePaths(int n, int m, vector<vector<int>> &grid) {
+        int ans = 0;
+        vector<vector<bool>> vis(n, vector<bool>(m,0));
+        if(grid[0][0] == 0){
+            return ans;
+        }else{
+            solve(0 , 0, vis, grid, ans, n, m);
+        }
+        
+        return ans;
+    }
+
+};
+                                                	WITHOUT TLE
+const int mod = 1e9 + 7;
+class Solution {
+  public:
+    int uniquePaths(int n, int m, vector<vector<int>> &grid) {
+        int dp[n][m];
+        if(grid[0][0] == 0){
+            return 0;
+        }
+        dp[0][0] = 1;
+        for(int i = 0; i < n;i++){
+            for(int j = 0; j < m;j++){
+                if(i == 0 && j != 0){
+                    if(grid[i][j] == 1){
+                        dp[i][j] = dp[i][j - 1];
+                    }
+                    else{
+                        dp[i][j] = 0;
+                    }
+                }
+                if(i != 0 && j == 0){
+                    if(grid[i][j] == 1){
+                        dp[i][j] = dp[i - 1][j];
+                    }
+                    else{
+                        dp[i][j] = 0;
+                    }
+                }if(i != 0 && j != 0){
+                    if(grid[i][j] == 1){
+                    dp[i][j] = dp[i - 1][j]%mod + dp[i][j - 1]%mod;
+                    }
+                    else{
+                        dp[i][j] = 0;
+                    }
+                }
+            }
+        }
+        return (dp[n - 1][m - 1])%mod;
+    }
+};
+                                                    OR
+const int mod = 1e9 + 7;
+class Solution {
+  public:
+    int solve(int x, int y, int n, int m, vector<vector<int>> &grid, vector<vector<int>> &dp){
+        if(x >= n || y >= m || grid[x][y] == 0){
+            return 0;
+        }
+        if(x == n - 1 && y == m - 1)return 1;
+        if(dp[x][y] != -1){
+            return dp[x][y];
+        }
+        int down = solve(x + 1, y, n, m, grid, dp);
+        int right = solve(x, y + 1, n, m, grid, dp);
+        return dp[x][y] = (down + right)% mod;
+    }
+    int uniquePaths(int n, int m, vector<vector<int>> &grid) {
+        vector<vector<int>>dp(n+1, vector<int>(m + 1,-1));
+        return solve(0, 0, n, m, grid, dp);
+    }
+};

@@ -1,0 +1,23 @@
+class Solution
+{
+    public:
+        string UncommonChars(string A, string B)
+        {
+            vector<int> mp(26, 0);
+            for(int i = 0; i < A.size(); i++){
+                mp[A[i] - 'a']++;
+            }
+            vector<int>mp2(26, 0);
+            for(int i = 0; i < B.size(); i++){
+                mp2[B[i] - 'a']++;
+            }
+            string ans = "";
+            for(int i = 0; i < 26; i++){
+                if((mp[i] > 0 || mp2[i] > 0) && (mp[i] == 0 || mp2[i] == 0)){
+                    ans.push_back(i + 'a');
+                }
+            }
+            if(ans.size() > 0)return ans;
+            return "-1";
+        }
+};

@@ -1,0 +1,29 @@
+class Solution {
+  public:
+    void dfs(int source , int &vertices, int &edges, unordered_map<int, bool> &vis, vector<vector<int>>& adj){
+        vis[source] = 1;
+        vertices++;
+        for(auto neighbour : adj[source]){
+            edges++;
+            if(vis[neighbour] != 1){
+                dfs(neighbour,vertices,edges,vis,adj);
+            }
+        }
+    }
+    int findNumberOfGoodComponent(int V, vector<vector<int>>& adj) {
+        unordered_map<int, bool>vis(V+1);
+        int ans = 0;
+        for(int i = 1; i <= V;i++){
+            int edges = 0;
+            int vertices = 0;
+            if(vis[i] != 1){
+                dfs(i,vertices,edges,vis,adj);
+                edges = edges/2;
+                if(edges == (vertices*(vertices - 1))/2){
+                    ans++;
+                }
+            }
+        }
+        return ans;
+    }
+};

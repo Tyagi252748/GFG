@@ -1,0 +1,25 @@
+class Solution{
+
+    // Function to find the trapped water between the blocks.
+    public:
+    long long trappingWater(int arr[], int n){
+        int left[n];
+        int right[n];
+        int maxm = arr[0];
+        for(int i = 0; i < n; i++){
+            left[i] = max(arr[i], maxm);
+            maxm = max(maxm,arr[i]);
+        }
+        maxm = arr[n-1];
+        for(int i = n-1; i >= 0; i--){
+            right[i] = max(arr[i], maxm);
+            maxm = max(maxm,arr[i]);
+        }
+        long long ans = 0;
+        for(int i = 0;i < n; i++){
+            int minh = min(left[i], right[i]);
+            ans += minh - arr[i];
+        }
+        return ans;
+    }
+};

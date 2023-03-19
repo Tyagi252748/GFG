@@ -1,0 +1,88 @@
+class Solution {
+  public:
+    void dfs(int node, vector<int> &vis, vector<int> adjl[]){
+        vis[node] = 1;
+        for(auto it : adjl[node]){
+            if(!vis[it]){
+                dfs(it, vis, adjl);
+            }
+        }
+    }
+    int numProvinces(vector<vector<int>> adj, int V) {
+        vector<int> adjl[V];
+        for(int i = 0; i < V; i++){
+            for(int j = 0; j < V; j++){
+                if(adj[i][j] == 1 && i != j){
+                    adjl[i].push_back(j);
+                    adjl[j].push_back(i);
+                }
+            }
+        }
+        vector<int> vis(V, 0);
+        int count = 0;
+        for(int i = 0; i < V; i++){
+            if(!vis[i]){
+                count++;
+                dfs(i, vis, adjl);
+            }
+        }
+        
+        return count;
+    }
+};
+
+
+                                               USINF DISJOINT SET DATA STRUCTURE
+
+class DisjointSet{
+    vector<int> parent, rank;
+    public:
+    DisjointSet(int n){
+        rank.resize(n + 1, 0);
+        parent.resize(n+1,0);
+    
+        for(int i = 0 ; i < n; i++){
+            parent[i] = i;
+        }
+    }
+    int findParent(int node){
+        if(parent[node] == node)
+        return node;
+        else{
+            return parent[node] = findParent(parent[node]);
+        }
+    }
+    void UnionByRank(int u, int v){
+        int par_u = findParent(u);
+        int par_v = findParent(v);
+        if(par_u == par_v)return;
+        if(rank[par_u] < rank[par_v]){
+            parent[par_u] = par_v;
+        }else if(rank[par_v] < rank[par_u]){
+            parent[par_v] = par_u;
+        }else{
+            parent[par_v] = par_u;
+            rank[par_u]++;
+        }
+    }
+};
+class Solution {
+  public:
+    int numProvinces(vector<vector<int>> adj, int V) {
+        DisjointSet ds(V);
+        for(int i = 0; i < V; i++){
+            for(int j = 0; j < V; j++){
+                if(adj[i][j] == 1 && i != j){
+                    ds.UnionByRank(i, j);
+                }
+            }
+        }
+        int ans = 0;
+        for(int i = 0; i < V; i++){
+            if(ds.findParent(i) == i){
+                ans++;
+            }
+        }
+        return ans;
+    }
+};

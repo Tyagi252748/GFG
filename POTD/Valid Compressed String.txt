@@ -1,0 +1,28 @@
+class Solution {
+  public:
+    int checkCompressed(string S, string T) {
+        int i = 0;
+        int j = 0;
+        while(i < T.length() && j < S.length()){
+            if(T[i] >= '0' && T[i] <= '9'){
+                int count = 0;
+                while(i < T.length() &&(T[i] >= '0' && T[i] <= '9')){
+                    count = count*10 + T[i] - '0';
+                    i++;
+                }
+                j = j + count;
+            }else if(T[i] != S[j]){
+                return 0;
+            }else{
+                i++;
+                j++;
+            }
+        }
+        
+        if(i == T.length() && j == S.length()){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+};
