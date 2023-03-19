@@ -36,8 +36,7 @@ class Solution{
             else{
                 tail->next = top;
                 tail = top;
-            }
-            
+            }           
         }
         return head;
     }
