@@ -1,0 +1,48 @@
+class Solution{
+public:
+    int minsum(Node *root){
+        if(root == NULL){
+            return 0;
+        }
+        int sum = root->data;
+        int leftsum = INT_MAX;
+        int rightsum = INT_MAX;
+        if(root->left == NULL && root->right == NULL){
+            return sum;
+        }else{
+            if(root->left != NULL){
+                leftsum = minsum(root->left);
+            }
+            if(root->right != NULL){
+                rightsum = minsum(root->right);
+            }
+        }
+        sum = sum + min(leftsum, rightsum);
+        return sum;
+    }
+    Node *search(Node *root, int target, int &sum){
+        if(root == NULL){
+            return NULL;
+        }
+        if(target == root->data){
+            return root;
+        }else if(target < root->data){
+            sum += root->data;
+            return search(root->left, target, sum);
+        }else{
+            sum += root->data;
+            return search(root->right, target, sum);
+        }
+    }
+    int maxDifferenceBST(Node *root,int target){
+        int uppr_sum = 0;
+        Node *tar = search(root, target, uppr_sum);
+        //cout<<tar->data<<endl;
+        //cout<<uppr_sum<<endl;
+        if(tar == NULL)return -1;
+        int lwr_sum = minsum(tar) - tar->data;
+        
+        //cout<<lwr_sum<<endl;
+        return uppr_sum - lwr_sum;
+    }
+};

@@ -1,0 +1,63 @@
+class Solution{
+    public:
+    
+    // X[], Y[]: input array
+    // M, N: size of arrays X[] and Y[] respectively
+    //Function to count number of pairs such that x^y is greater than y^x.
+    int bs(int Y[], int key, int N){
+        int s = 0;
+        int e = N - 1;
+        int ans = -1;
+        while(s <= e){
+            int mid = s + (e -s)/2;
+            if(Y[mid] > key){
+                ans = mid;
+                e = mid - 1;
+                
+            }else{
+                s = mid + 1;
+            }
+        }
+        return ans;
+    }
+    long long countPairs(int X[], int Y[], int M, int N)
+    {
+       sort(X, X + M);
+       sort(Y, Y + N);
+       long long  ans = 0;
+       int zero = 0, one = 0, two = 0, three = 0, four = 0;
+       for(int i = 0; i < N; i++){
+            if(Y[i] == 0)zero++;
+            if(Y[i] == 1)one++;
+            if(Y[i] == 2)two++;
+            if(Y[i] == 3)three++;
+            if(Y[i] == 4)four++;
+       }
+       for(int i = 0; i < M; i++){
+           if(X[i] == 0){
+               continue;
+           }else if(X[i] == 1){
+               ans += zero;
+           }else if(X[i] == 2){
+               int idx = bs(Y, 2, N);
+               if(idx != -1){
+                   ans += N - idx;
+               }
+               ans -= three;
+               ans -= four;
+               ans += one + zero;
+           }else{
+               int idx = bs(Y, X[i], N);
+               if(idx != -1){
+                   ans += N - idx;
+               }
+               ans += one+ zero;
+               if(X[i] == 3){
+                   ans += two;
+               }
+           }
+           
+       }
+       return ans;
+    }
+};

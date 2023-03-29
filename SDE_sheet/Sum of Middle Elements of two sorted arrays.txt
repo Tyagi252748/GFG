@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int findMidSum(int ar1[], int ar2[], int n) {
+        int gap = n;
+        int bound = 2*n;
+        int i = 0;
+        int j = gap;
+        while(gap > 0){
+            int i = 0;
+            int j = gap;
+            while(j < bound){
+                if(j < n && ar1[i] > ar1[j]){
+                    swap(ar1[i], ar1[j]);
+                }else if(i < n && j >= n && ar1[i] > ar2[j - n]){
+                    swap(ar1[i], ar2[j - n]);
+                }else if(i >= n && j >= n && ar2[i - n] > ar2[j - n]){
+                    swap(ar2[i -n], ar2[j - n]);
+                }
+                i++;
+                j++;
+            }
+            if(gap == 1){
+                gap = 0;
+            }else{
+                gap = ceil((float)gap/2);
+            }
+        }
+        return ar1[n - 1] + ar2[0]; 
+    }
+};

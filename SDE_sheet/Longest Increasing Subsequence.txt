@@ -1,0 +1,20 @@
+class Solution
+{
+    public:
+    //Function to find length of longest increasing subsequence.
+    int solve(int idx, int pre_idx, int a[], int n, vector<vector<int>> &dp){
+        if(idx == n)return 0;
+        if(dp[idx][pre_idx+1] != -1)return dp[idx][pre_idx +1];
+        
+        int len = 0 + solve(idx + 1, pre_idx, a, n, dp);
+        if(pre_idx == -1 || a[idx] > a[pre_idx]){
+            len = max(len, 1 + solve(idx + 1, idx, a, n, dp));
+        }
+        return dp[idx][pre_idx + 1] = len;
+    }
+    int longestSubsequence(int n, int a[])
+    {
+       vector<vector<int>>dp(n, vector<int>(n + 1, -1));
+       return solve(0, -1, a, n, dp);
+    }
+};

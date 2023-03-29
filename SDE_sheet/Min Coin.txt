@@ -1,0 +1,28 @@
+class Solution{
+	public:
+	int solve(int idx, vector<int> &nums, int T, vector<vector<int>> &dp){
+	    if(idx == 0){
+	        if(T % nums[0] == 0)return T/nums[0];
+	        else{
+	            return 1e9;
+	        }
+	    }
+	    if(dp[idx][T] != -1)return dp[idx][T];
+	    int notTake = 0 + solve(idx - 1, nums, T, dp);
+	    int Take = INT_MAX;
+	    if(nums[idx] <= T){
+	        Take = 1 + solve(idx, nums, T - nums[idx], dp);
+	    }
+	    return dp[idx][T] = min(notTake, Take);
+	}
+	int MinCoin(vector<int>nums, int amount)
+	{
+	    int n = nums.size();
+	    vector<vector<int>> dp(n, vector<int>(amount + 1, -1));
+	    int ans = solve(n - 1, nums, amount, dp);
+	    if(ans >= 1e9)return -1;
+	    
+	    
+	    return ans;
+	}
+};

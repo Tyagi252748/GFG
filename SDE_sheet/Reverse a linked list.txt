@@ -16,3 +16,29 @@ class Solution
         return pre;
     }
 };
+
+                           USING RECURSION
+
+
+class Solution
+{
+    public:
+    void reverse(Node *&head, Node *curr, Node *prev){
+        if(curr == NULL){
+            head = prev;
+            return;
+        }
+        Node *forward = curr->next;
+        reverse(head, forward, curr);
+        curr->next = prev;
+    }
+    //Function to reverse a linked list.
+    struct Node* reverseList(struct Node *head)
+    {
+        Node *curr = head;
+        Node *prev = NULL;
+        reverse(head, curr, prev);
+        return head;
+    }
+    
+};

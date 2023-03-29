@@ -1,0 +1,22 @@
+class Solution {
+  public:
+    string valuableString(int n, vector<string> &arr) {
+        pair<int, int> ans = {0, 0};
+        for(int i = 0; i < n; i++){
+            string s = arr[i];
+            int count = 0;
+            for(int j = 0; j < s.length(); j++){
+                if(s[j] == 'a' || s[j] == 'e' ||s[j] == 'i' ||s[j] == 'o' ||s[j] == 'u'){
+                    count++;
+                }else{
+                    count--;
+                }                
+            }
+            if(abs(count) > ans.first){
+                ans = {abs(count), i};
+            }
+            //cout<<abs(count)<<endl;
+        }
+        return arr[ans.second];
+    }
+};

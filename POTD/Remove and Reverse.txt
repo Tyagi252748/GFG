@@ -1,0 +1,38 @@
+class Solution {
+  public:
+    string removeReverse(string S) {
+        unordered_map<char, int> mp;
+        for(auto it : S){
+            mp[it]++;
+        }
+        int i = 0;
+        int j = S.length() - 1;
+        bool flag = true;
+        while(i <= j){
+            if(flag){
+                if(mp[S[i]] > 1){
+                    mp[S[i]]--;
+                    S[i] = '0';
+                    flag = false;
+                }
+                i++;
+            }else{
+                if(mp[S[j]] > 1){
+                    mp[S[j]]--;
+                    S[j] = '0';
+                    flag = true;
+                }
+                j--;
+            }
+        }
+        string ans = "";
+        for(auto it : S){
+            if(it != '0'){
+                ans += it;
+            }
+        }
+        if(!flag)reverse(ans.begin(), ans.end());
+        
+        return ans;
+    }
+};

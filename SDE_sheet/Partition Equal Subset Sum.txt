@@ -1,0 +1,26 @@
+class Solution{
+public:
+    int solve(int idx, int target, int N, int arr[],vector<vector<int>>&dp){
+        if(target == 0)return 1;
+        if(idx==0) return arr[0] == target;
+       if(dp[idx][target] != -1) return dp[idx][target];
+    bool notTaken = solve(idx-1,target,N,arr,dp);
+    bool taken = false;
+    if(arr[idx] <= target){
+    taken = solve(idx -1, target - arr[idx], N, arr,dp);
+        }
+        
+    return dp[idx][target] = notTaken | taken;
+    }
+    int equalPartition(int N, int arr[])
+    {
+        int sum = 0;
+        for(int i = 0;i < N; i++){
+            sum += arr[i];
+        }
+        if(sum%2 == 1)return 0;
+        int target = sum/2;
+        vector<vector<int>>dp(N+1,vector<int>((target+1),-1));
+        return solve(N-1, target, N, arr,dp);
+    }
+};

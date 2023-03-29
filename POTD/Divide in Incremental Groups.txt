@@ -1,0 +1,24 @@
+class Solution {
+  public:
+    int solve(int sum_left, int count, int prev, vector<vector<vector<int>>> &dp){
+        if(count == 0){
+            if(sum_left == 0){
+                return 1;
+            }
+            return 0;
+        }
+        if(sum_left == 0){
+            return 0;
+        }
+        if(dp[sum_left][prev][count] != -1)return dp[sum_left][prev][count];
+        int ways = 0;
+        for(int i = prev; i <= sum_left; i++){
+            ways += solve(sum_left - i, count - 1, i, dp);
+        }
+        return dp[sum_left][prev][count] = ways;
+    }
+    int countWaystoDivide(int N, int K) {
+        vector<vector<vector<int>>>dp(N + 1, vector<vector<int>>(N + 1, vector<int>(K + 1, -1)));
+        return solve(N, K, 1, dp);
+    }
+};

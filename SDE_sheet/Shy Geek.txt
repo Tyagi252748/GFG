@@ -1,0 +1,31 @@
+class Solution{
+    public:
+    Shop shop;
+    Solution(Shop s)
+    {
+        this->shop = s;
+    }
+    long long find(int n, long k){
+        long long s = 0;
+        long long e = n - 1;
+        long long count = 0;
+        while(k > 0){
+            s = 0;
+            long long value;
+            while(s <= e){
+                long long mid = s + (e - s)/2;
+                long long mid_value = shop.get(mid);
+                if(mid_value <= k){
+                    value = mid_value;
+                    s = mid + 1;
+                }else{
+                    e = mid - 1;
+                }
+            }
+            if(e == -1)break;
+            count = count + k/value;
+            k = k % value;
+        }
+        return count;
+    }
+};

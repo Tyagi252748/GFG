@@ -1,0 +1,22 @@
+class Solution{
+public:
+    int find_square(int n){
+        int ans = 0;
+        while(n > 0){
+            int rem = n % 10;
+            ans += rem*rem;
+            n = n/10;
+        }
+        return ans;
+    }
+    int isHappy(int N){
+        int slow = N;
+        int fast = N;
+        do{
+            slow = find_square(slow);
+            fast = find_square(find_square(fast));
+        }while(slow != fast);
+        if(slow == 1)return 1;
+        return 0;
+    }
+};

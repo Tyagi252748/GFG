@@ -1,0 +1,27 @@
+class Solution
+{
+    public:
+    //Function to return max value that can be put in knapsack of capacity W.
+    int solve(int idx, int wt[], int val[], int W, vector<vector<int>> &dp){
+        if(idx == 0){
+            if(wt[0] <= W){
+                return val[0];
+            }else{
+                return 0;
+            }
+        }
+        if(dp[idx][W] != -1)return dp[idx][W];
+        int notTake = 0 + solve(idx - 1, wt, val, W, dp);
+        int Take = INT_MIN;
+        if(wt[idx] <= W){
+            Take = val[idx] + solve(idx - 1, wt, val, W - wt[idx], dp);
+        }
+        
+        return dp[idx][W] = max(Take, notTake);
+    }
+    int knapSack(int W, int wt[], int val[], int n) 
+    {
+        vector<vector<int>> dp(n, vector<int>(W+ 1, -1));
+        return solve(n - 1, wt, val, W, dp);
+    }
+};

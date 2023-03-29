@@ -1,0 +1,13 @@
+int missingNumber(int A[], int N)
+{
+        int ans ;
+        int sum1 = 0;
+        int sum2 = (N*(N+1))/2;
+        for(int i = 0; i < N-1;i++){
+            sum1 = sum1 + A[i];
+        }
+        ans = sum2 - sum1;
+        
+        return ans;
+    
+}

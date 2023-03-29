@@ -46,3 +46,27 @@ Node* sortedMerge(Node* head1, Node* head2)
         return solve(head1, head2);
     }
 }
+
+
+
+                            OR
+
+
+Node* sortedMerge(Node* head1, Node* head2)  
+{  
+    Node *dummyhead = new Node(0);
+    Node *tail = dummyhead;
+    while(head1 != NULL && head2 != NULL){
+        if(head1->data < head2->data){
+            tail->next = head1;
+            head1 = head1->next;
+            tail = tail->next;
+        }else{
+            tail->next = head2;
+            head2 = head2->next;
+            tail = tail->next;
+        }
+    }
+        tail->next = (head1 != NULL) ? head1 : head2;
+        return dummyhead->next;
+}

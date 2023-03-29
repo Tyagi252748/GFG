@@ -1,0 +1,18 @@
+class Solution {
+  public:
+    int minimizeCost(vector<int>& height, int n, int k) {
+        vector<int> dp(n + 1, -1);
+        dp[0] = 0;
+        for(int i = 1; i < n; i++){
+            int minjump = INT_MAX;
+            for(int j = 1; j <= k; j++){
+                if(i - j >= 0){
+                    int jump = dp[i - j] + abs(height[i] - height[i - j]);
+                    minjump = min(minjump, jump);
+                }
+            }
+            dp[i] = minjump;
+        }
+        return dp[n - 1];
+    }
+};

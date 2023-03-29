@@ -1,0 +1,51 @@
+class Solution
+{
+    public:
+        int bs(int s, int e, vector<int> &arr){
+            int ans = 0;
+            while(s <= e){
+                int mid = s + (e - s)/2;
+                if(arr[mid] == 1){
+                    ans = mid;
+                    e = mid - 1;
+                }
+                else if(arr[mid] == 0){
+                    s = mid + 1;
+                }
+            }
+            return ans;
+        }
+        int maxOnes (vector <vector <int>> &Mat, int N, int M)
+        {
+            pair<int, int>ans{0, M - 1};
+            for(int i = 0; i < N; i++){
+                int idx = bs(0, M, Mat[i]);
+                if(idx < ans.second){
+                    ans = {i, idx};
+                }
+            }   
+            return ans.first;
+        }
+};
+
+
+                                 OR WITH O(N) TIME COMPLEXITY
+
+class Solution
+{
+    public:
+    int maxOnes (vector <vector <int>> &Mat, int N, int M){
+        int row = 0;
+        int j = M - 1;
+        int max_count = 0;
+        for(int i = 0; i < N; i++){
+            while(Mat[i][j] == 1){
+                max_count++;
+                row = i;
+                j--;
+            }
+            if(j == -1 || i == N - 1)break;
+        }
+        return row;
+    }
+};
