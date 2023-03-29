@@ -1,0 +1,18 @@
+class Solution {
+  public:
+    int minimumInteger(int N, vector<int> &A) {
+        long sum = 0;
+        const int mod = 1e9;
+        for(int i = 0; i < N; i++){
+            sum = (sum + A[i]);
+        }
+        //cout<<sum<<" ";
+        long ans = INT_MAX;
+        for(int i = 0; i < N; i++){
+            if(log(sum) <= log(A[i]) + log(N) ){
+                ans = min(ans, (long)A[i]);
+            }
+        }
+        return (int)ans;
+    }
+};

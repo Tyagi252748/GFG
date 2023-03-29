@@ -1,0 +1,39 @@
+class Solution{   
+public:
+    void dfs(int i, int j, vector<vector<int>> &mat, vector<vector<int>> &Sea, int n, int m){
+        if(Sea[i][j])return;
+        Sea[i][j] = 1;
+        int delr[4] = {0, 0, -1, 1};
+        int delc[4] = {1, -1, 0, 0};
+        for(int k = 0; k < 4; k++){
+            int nr = i + delr[k];
+            int nc = j + delc[k];
+            if(nr >= 0 && nr < n && nc >= 0 && nc < m && mat[nr][nc] >= mat[i][j]){
+                dfs(nr, nc, mat, Sea, n, m);
+            }
+        }
+        // if(i + 1 < n && mat[i + 1][j] >= mat[i][j] )dfs(i + 1, j, mat, Sea, n, m);
+        // if(i - 1 >= 0 && mat[i - 1][j] >= mat[i][j] )dfs(i - 1, j, mat, Sea, n, m);
+        // if(j + 1 < m && mat[i][j + 1] >= mat[i][j] )dfs(i, j + 1, mat, Sea, n, m);
+        // if(j - 1 >= 0 && mat[i][j - 1] >= mat[i][j] )dfs(i, j - 1, mat, Sea, n, m);
+    }
+    int water_flow(vector<vector<int>> &mat,int N,int M){
+        int ans = 0;
+        vector<vector<int>> Indian(N, vector<int> (M, 0));
+        vector<vector<int>> Arabian(N, vector<int> (M, 0));
+        for(int i = 0; i < M; i++){
+            dfs(0, i, mat, Indian, N, M);
+            dfs(N - 1, i, mat, Arabian, N, M);
+        }
+        for(int i = 0; i < N; i++){
+            dfs(i , 0, mat, Indian, N, M);
+            dfs(i, M - 1, mat, Arabian, N, M);
+        }
+        for(int i = 0; i < N; i++){
+            for(int j = 0; j < M; j++){
+                if(Indian[i][j] && Arabian[i][j])ans++;
+            }
+        }
+        return ans;
+    }
+};
