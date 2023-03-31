@@ -1,0 +1,63 @@
+class DisjointSet{
+    vector<int> size, parent;
+    public:
+    DisjointSet(int n){
+        size.resize(n + 1, 0);
+        parent.resize(n + 1, 0);
+        for(int i = 0; i < n; i++){
+            parent[i] = i;
+            size[i] = 1;
+        }
+    }
+    int findparent(int u){
+        if(parent[u] == u)return u;
+        else{
+            return parent[u] = findparent(parent[u]);
+        }
+    }
+    void combine(int u, int v){
+        int x = findparent(u);
+        int y = findparent(v);
+        if(x != y){
+            if(size[x] > size[y]){
+                parent[y] = x;
+                size[x] += size[y];
+            }else{
+                parent[x] = y;
+                size[y] += size[x];
+            }
+        }
+    }
+};
+class Solution {
+  public:
+    vector<string> avoidExplosion(vector<vector<int>> mix, int n,vector<vector<int>> danger, int m) {
+        vector<string> ans;
+        DisjointSet ds(n);
+        for(int i = 0; i < n; i++){
+            int a = ds.findparent(mix[i][0]);
+            int b = ds.findparent(mix[i][1]);
+            if(a == b){
+                ans.push_back("Yes");
+                continue;
+            }
+            bool explode = false;
+            for(int j = 0; j < m; j++){
+                int u = ds.findparent(danger[j][0]);
+                int v = ds.findparent(danger[j][1]);
+                if(min(a, b) == min(u, v) && max(a,b) == max(u , v)){
+                    explode = true;
+                    break;
+                }
+            }
+            if(explode == false){
+                ans.push_back("Yes");
+                ds.combine(a, b);
+            }
+            else{
+                ans.push_back("No");    
+            } 
+        }
+        return ans;
+    }
+};

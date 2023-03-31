@@ -1,0 +1,13 @@
+class Solution {
+  public:
+    long long int minOperations(int N) {
+        long long int ans;
+        long long int n = N;
+        if(N % 2 == 0){
+            ans = (n/2)*(n/2);
+        }else{
+            ans = (n/2)*((n/2)+1);
+        }
+        return ans;
+    }
+};

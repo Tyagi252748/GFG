@@ -1,0 +1,38 @@
+class Solution{
+public:
+    long long int gcd(long long int a, long long int b){
+        if(b % a == 1)return 1;
+        if(b % a == 0)return a;
+        
+        return gcd(b % a, a);
+    }
+    vector<long long int> minimumSquares(long long int L, long long int B)
+    {
+        long long int K = 0;
+        if(L < B) K = gcd(L ,B);
+        else K = gcd(B ,L);
+        
+        long long int N = (L * B)/(K * K);
+        vector<long long int>ans;
+        ans.push_back(N);
+        ans.push_back(K);
+        return ans;
+    }
+};
+
+
+                              OR
+
+
+class Solution{
+public:
+    vector<long long int> minimumSquares(long long int L, long long int B)
+    {
+        long long int K = __gcd(L ,B);
+        long long int N = (L * B)/(K * K);
+        vector<long long int>ans;
+        ans.push_back(N);
+        ans.push_back(K);
+        return ans;
+    }
+};
