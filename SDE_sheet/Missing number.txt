@@ -11,3 +11,44 @@ int missingNumber(int A[], int N)
         return ans;
     
 }
+
+                                OR
+
+class Solution{
+  public:
+    int MissingNumber(vector<int>& array, int n) {
+        int xor1 = 0;
+        int xor2 = 0;
+        
+        for(int i = 0; i < n - 1; i++){
+            xor2 = xor2^array[i];
+            xor1 = xor1^(i + 1);
+        }
+        xor1 = xor1^n;
+        return xor1^xor2;
+    }
+};
+
+                                 OR USING CYCLIC SORT
+
+// User function template for C++
+
+class Solution{
+  public:
+    int MissingNumber(vector<int>& array, int n) {
+        int i = 0;
+        while(i < n){
+            int correct = array[i] - 1;
+            if(array[i] < n-1 && array[i] != array[correct]){
+                swap(array[i], array[correct]);
+            }else{
+                i++;
+            }
+        }
+        for(int i = 0; i < n; i++){
+            if(array[i] != i + 1){
+                return i + 1;
+            }
+        }return n;
+    }
+};

@@ -1,0 +1,15 @@
+class Solution {
+  public:
+    int equalSum(int N, vector<int> &A) {
+        if(N == 1)return 1;
+        int sum = A[0];
+        for(int i = 1; i < N; i++){
+            sum += A[i];
+            A[i] += A[i - 1];
+        }
+        for(int i = 1; i < N; i++){
+            if(A[i - 1] == sum - A[i])return i + 1;
+        }
+        return -1;
+    }
+};

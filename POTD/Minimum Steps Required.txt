@@ -1,0 +1,13 @@
+int minSteps(string str) {
+    int a_cnt = 0;
+    int b_cnt = 0;
+    char prev = 'A';
+    for(auto it : str){
+        if(it == prev)continue;
+        else if(it == 'a')a_cnt++;
+        else b_cnt++;
+        
+        prev = it;
+    }
+    return min(a_cnt, b_cnt) + 1;
+}

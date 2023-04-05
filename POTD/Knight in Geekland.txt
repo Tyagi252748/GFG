@@ -1,0 +1,46 @@
+class Solution{
+public:
+    int knightInGeekland(int start_x,int start_y,vector<vector<int>> &arr){
+        int n = arr.size();
+        int m = arr[0].size();
+        vector<int> arr1;
+        vector<vector<int>> vis(n, vector<int>(m, 0));
+        queue<pair<int, int>> q;
+        vis[start_x][start_y] = 1;
+        int delr[8] = {2, 2, -2, -2, 1, -1, 1, -1};
+        int delc[8] = {1, -1, 1, -1, 2, 2, -2, -2};
+        q.push({start_x, start_y});
+        while(!q.empty()){
+            int size = q.size();
+            int cur_point = 0;
+            while(size--){
+                int r = q.front().first;
+                int c = q.front().second;
+                q.pop();
+                cur_point += arr[r][c];
+                for(int i = 0; i < 8; i++){
+                    int nr = r + delr[i];
+                    int nc = c + delc[i];
+                    if(nr >= 0 && nr < n && nc >= 0 && nc < m && !vis[nr][nc]){
+                        vis[nr][nc] = 1;
+                        q.push({nr, nc});
+                    }
+                }
+            }
+            arr1.push_back(cur_point);
+        }
+        int ans = -1;
+        int max_coins = INT_MIN;
+        int N = arr1.size();
+        for(int i = N - 1; i >= 0; i--){
+            if(i + arr1[i] < N){
+                arr1[i] += arr1[i + arr1[i]];
+            }
+            if(arr1[i] >= max_coins){
+                max_coins = arr1[i];
+                ans = i;
+            }
+        }
+        return ans;
+    }
+};

@@ -1,0 +1,22 @@
+class Solution {
+  public:
+    int minLaptops(int N, int start[], int end[]) {
+        sort(start, start + N);
+        sort(end, end + N);
+        int ans = 0;
+        int cnt = 0;
+        int i = 0;
+        int j = 0;
+        while(i < N){
+            if(start[i] < end[j]){
+                cnt++;
+                ans = max(cnt, ans);
+                i++;
+            }else if(start[i] >= end[j]){
+                cnt--;
+                j++;
+            }
+        }
+        return ans;
+    }
+};
