@@ -1,0 +1,59 @@
+class Solution {
+  public:
+    #define  mod (int)(1e9 + 7)
+    int fact[100001];
+    int binExpo(int n, int x){
+        int ans = 1;
+        while(x){
+            if(x&1)ans = (ans*1LL*n)%mod;
+            n = (n*1LL*n)%mod;
+            x>>=1;
+        }
+        return ans;
+    }
+    void createFactorial(){
+        fact[0] = 1;
+        for(int i = 1; i <= 100000 ; i++){
+            fact[i] = (i*1LL*fact[i - 1])%mod;
+        }
+    }
+    int nCr(int N, int i){
+        int num = fact[N];
+        int den = (fact[i]*1LL*fact[N-i])%mod;
+        return (num*1LL*binExpo(den, mod - 2))%mod;
+    }
+    int bestNumbers(int N, int A, int B, int C, int D) {
+        long long  ans = 0;
+        createFactorial();
+        if(A==B){
+            int sum = N*A;
+            bool best = false;
+            while(sum > 0){
+                int rem = sum %10;
+                if(rem == C || rem == D){
+                    best = true;
+                    break;
+                }
+                sum = sum/10;
+            }
+            if(best)return 1;
+        }
+        for(int i = 0; i <= N; i++){
+            int sum = i*A + (N - i)*B;
+            
+            bool good = false;
+            while(sum > 0){
+                int rem = sum % 10;
+                if(rem == C || rem == D){
+                    good = true;
+                    break;
+                }
+                sum = sum/10;
+            }
+            if(good){
+                ans = (ans + nCr(N, i)%mod)%mod;
+            }
+        }
+        return ans;
+    }
+};

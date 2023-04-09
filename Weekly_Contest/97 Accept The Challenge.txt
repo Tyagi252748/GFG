@@ -1,0 +1,18 @@
+class Solution {
+  public:
+    long long acceptTheChallenge(int n) {
+        int N = n/3;
+        int i = N;
+        while(i > 0){
+            int sum = 0;
+            int x = i;
+            while(sum < n){
+                sum += x;
+                x *= 2;
+            }
+            if(sum == n)return i;
+            i--;
+        }
+        return -1;
+    }
+};

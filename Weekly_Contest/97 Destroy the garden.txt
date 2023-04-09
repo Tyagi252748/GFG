@@ -1,0 +1,39 @@
+class Solution {
+  public:
+    vector<int> parent;
+    int findParent(int node){
+        if(parent[node] == node)
+        return node;
+        else{
+            return parent[node] = findParent(parent[node]);
+        }
+    }
+    void Union(int u, int v, vector<int> &arr){
+        int par_u = findParent(u);
+        int par_v = findParent(v);
+        if(par_u != par_v){
+            if(arr[par_u - 1] < arr[par_v - 1]){
+                parent[par_u] = par_v;
+            }else{
+                parent[par_v] = par_u;
+            }
+        }
+    }
+    long long destroyTheGarden(int n, int m, vector<int> &arr, vector<vector<int>> &overlapped) {
+        long long ans = 0;
+        parent = vector<int>(n + 1);
+        for(int i = 1; i <= n; i++){
+            parent[i] = i;
+        }
+        for(auto it : overlapped){
+            int u = findParent(it[0]);
+            int v = findParent(it[1]);
+            if(u != v)Union(u, v, arr);
+        }
+        for(int i = 1; i <= n; i++){
+            if(parent[i] == i)ans += arr[i - 1];
+        }
+        return ans;
+        
+    }
+};
