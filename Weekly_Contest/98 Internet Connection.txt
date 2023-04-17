@@ -1,0 +1,35 @@
+class Solution {
+  public:
+    bool internetCoverage(int range, int n, vector<vector<int>> &wifi) {
+        queue<pair<int, pair<int, int>>>q;
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                if(wifi[i][j] == 1)q.push({1, {i, j}});
+            }
+        }
+        int delr[8] = {-1, -1, -1, 0, 0, 1, 1, 1};
+        int delc[8] = {-1, 0, 1, -1, 1, -1, 0, 1};
+        while(!q.empty()){
+            int dis = q.front().first;
+            int r = q.front().second.first;
+            int c = q.front().second.second;
+            q.pop();
+            for(int i = 0; i < 8; i++){
+                int nr = r + delr[i];
+                int nc = c + delc[i];
+                if(nr >= 0 && nr < n && nc >= 0 && nc < n){
+                    if(dis + 1 <= range && wifi[nr][nc] == 0){
+                        q.push({dis + 1, {nr, nc}});
+                        wifi[nr][nc] = 1;
+                    }
+                }
+            }
+        }
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                if(wifi[i][j] == 0)return false;
+            }
+        }
+        return true;
+    }
+};

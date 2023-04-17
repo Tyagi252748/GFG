@@ -1,0 +1,13 @@
+void POSTORDER(Node* root, vector<int> &ans){
+    if(root == NULL)return;
+        
+    POSTORDER(root->left, ans);
+    POSTORDER(root->right, ans);
+    ans.push_back(root->data);
+}
+vector <int> postOrder(Node* root)
+{
+        vector<int> ans;
+        POSTORDER(root, ans);
+        return ans;
+}

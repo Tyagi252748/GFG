@@ -1,0 +1,10 @@
+class Solution {
+public:
+    int solve(int a, int b, int c) {
+        int sum = a + b + c;
+        int maxi = max(max(a, b), c);
+        int rem = sum - maxi;
+        if(maxi > 2*(rem + 1))return -1;
+        return sum;
+    }
+};

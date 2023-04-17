@@ -1,0 +1,19 @@
+class Solution{
+public:
+    int dominantPairs(int n,vector<int> &arr){
+        int cnt = 0;
+        int i = 0;
+        int j = n/2;
+        sort(arr.begin(), arr.begin()+j, greater<int>{});
+        sort(arr.begin() + j, arr.end(), greater<int>{});
+        while(i < n/2 && j < n){
+            if(arr[i] >= 5*arr[j]){
+                cnt += n - j;
+                i++;
+            }else{
+                j++;
+            }
+        }
+        return cnt;
+    }  
+};

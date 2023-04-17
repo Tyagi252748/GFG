@@ -1,0 +1,40 @@
+	class Solution{
+  public:
+    Node *getMiddle(Node *head)
+    {
+        Node* slow = head;
+        Node* fast = head;
+        while(fast != NULL && fast->next != NULL){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        return slow;
+    }  
+    Node *reverse(Node *head){
+        Node *curr = head;
+        Node *prev = NULL;
+        Node *Next = NULL;
+        while(curr != NULL){
+            Next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = Next;
+        }
+        return prev;
+    }
+    //Function to check whether the list is palindrome.
+    bool isPalindrome(Node *head)
+    {
+        if(head == NULL || head->next == NULL)return true;
+        
+        Node *mid = getMiddle(head);
+        Node *newhead = reverse(mid);
+        while(head != NULL && newhead != NULL){
+            if(head->data != newhead->data)return false;
+            
+            head = head->next;
+            newhead = newhead->next;
+        }
+        return true;
+    }
+};
