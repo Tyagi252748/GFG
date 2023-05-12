@@ -1,0 +1,16 @@
+class Solution
+{
+  public:
+    int findPairs(long long a[], long long n)
+    {
+        unordered_set<int> st;
+        for(int i = 0; i < n; i++){
+            for(int j = i + 1; j < n; j++){
+                long long sum = a[i] + a[j];
+                if(st.find(sum) != st.end())return 1;
+                else st.insert(sum);
+            }
+        }
+        return 0;
+    }
+};

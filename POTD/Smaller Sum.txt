@@ -1,0 +1,64 @@
+class Solution{
+public:
+    vector<long long> smallerSum(int n,vector<int> &arr){
+        int maxi = 0;
+        for(auto it : arr){
+            maxi = max(maxi, it);
+        }
+        vector<long long> sum(maxi + 1, 0);
+        for(auto it : arr){
+            sum[it]++;
+        }
+        sum[0] = 0;
+        for(int i = 1; i < sum.size(); i++){
+            sum[i] = sum[i - 1] + sum[i]*i;
+        }
+        vector<long long > ans;
+        for(int i = 0; i < n; i++){
+            if(arr[i] == 0)ans.push_back(0);
+            else ans.push_back(sum[arr[i]-1]);
+        }
+        return ans;
+    }
+};
+                                   
+
+
+                                                       OR
+
+class Solution{
+public:
+    int BS(int target, vector<int> &temp, int n){
+        int idx = -1;
+        int s = 0;
+        int e = n - 1;
+        while(s <= e){
+            int mid = s + (e - s)/2;
+            if(temp[mid] == target){
+                idx = mid;
+                e = mid - 1;
+            }else if(temp[mid] < target){
+                s = mid + 1;
+            }else{
+                e = mid - 1;
+            }
+        }
+        return idx;
+    }
+    vector<long long> smallerSum(int n,vector<int> &arr){
+        vector<long long >sum(n);
+        vector<long long >ans(n);
+        vector<int> temp(n);
+        temp = arr;
+        sort(temp.begin(), temp.end());
+        sum [0] = temp[0];
+        for(int i = 1; i < n; i++){
+            sum[i] = sum[i - 1] + temp[i];
+        }
+        for(int i = 0; i < n; i++){
+            int idx = BS(arr[i], temp, n);
+            ans[i] = sum[idx] - arr[i];
+        }
+        return ans;
+    }
+};

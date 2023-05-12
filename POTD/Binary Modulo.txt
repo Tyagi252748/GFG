@@ -1,0 +1,17 @@
+class Solution{
+    public:
+    int modulo(string s,int m)
+    {
+        long long k = 0;
+        int n = s.length();
+        long long pow = 1;
+        for(int i = n - 1; i >= 0; i--){
+            if(s[i] == '1'){
+                k += pow;
+                k = k % m;
+            }
+            pow = (pow*2)%m;
+        }
+        return k;
+    }
+};

@@ -1,0 +1,14 @@
+string firstRepChar(string s)
+{
+    int freq[26] = {0};
+    string ans = "";
+    for(int i = 0; i < s.size(); i++){
+        char ch = s[i];
+        if(freq[s[i] - 'a'] == 1){
+            ans = ch;
+            return ans;
+        }
+        freq[s[i] - 'a']++;
+    }
+    return "-1";
+}

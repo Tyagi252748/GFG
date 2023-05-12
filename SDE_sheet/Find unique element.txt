@@ -1,0 +1,15 @@
+class Solution{
+  public:
+    int findUnique(int a[], int n, int k) {
+        sort(a, a+n);
+        int cnt = 1;
+        for(int i = 1; i < n; i++){
+            if(a[i] == a[i - 1])cnt++;
+            else{
+                if(cnt%k == 0)cnt = 1;
+                else return a[i - 1];
+            }
+        }
+        return a[n - 1];
+    }
+};

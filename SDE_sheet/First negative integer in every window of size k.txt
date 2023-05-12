@@ -28,3 +28,30 @@ vector<long long> printFirstNegativeInteger(long long int A[],
  }
  return ans;
 }
+
+
+                             OR
+
+vector<long long> printFirstNegativeInteger(long long int A[],
+                                             long long int N, long long int K) {
+    
+    vector<long long int> ans;
+    vector<long long int> list;
+    int i = 0;
+    int j = 0;
+    while(i < N){
+        if(A[i] < 0)list.push_back(A[i]);
+        if(i - j + 1 < K){
+            i++;
+        }else if(i - j + 1 == K){
+            if(list.size() == 0)ans.push_back(0);
+            else{
+                ans.push_back(list.front());
+                if(A[j] == list.front())list.erase(list.begin());
+            }
+            i++;
+            j++;
+        }
+    }
+    return ans;
+ }

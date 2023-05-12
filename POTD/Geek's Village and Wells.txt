@@ -1,0 +1,40 @@
+class Solution{
+public:
+    vector<vector<int>> chefAndWells(int n,int m,vector<vector<char>> &c){
+        vector<vector<int>>ans(n, vector<int>(m, -1));
+        queue<pair<int, int>>q;
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                if(c[i][j] == 'W'){
+                    q.push({i, j});
+                    ans[i][j] = 0;
+                }else if(c[i][j] == 'N'){
+                    ans[i][j] = 0;
+                }
+            }
+        }
+        int delr[4] = {0, 0, -1, 1};
+        int delc[4] = {-1, 1, 0, 0};
+        while(!q.empty()){
+            int row = q.front().first;
+            int clm = q.front().second;
+            q.pop();
+            for(int i = 0; i < 4; i++){
+                int nr = row + delr[i];
+                int nc = clm + delc[i];
+                if(nr < n && nr >= 0 && nc < m && nc >= 0 && c[nr][nc] != 'N' && ans[nr][nc] == -1){
+                    ans[nr][nc] = 2 + ans[row][clm];
+                    q.push({nr, nc});
+                }
+            }
+        }
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                if(c[i][j] == '.'){
+                    ans[i][j] = 0;
+                }
+            }
+        }
+        return ans;
+    }
+};

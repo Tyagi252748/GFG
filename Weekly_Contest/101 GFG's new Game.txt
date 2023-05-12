@@ -1,0 +1,53 @@
+class Solution {
+  public:
+    static bool compare(pair<int, int> &a, pair<int, int> &b){
+        if(a.second != b.second)return a.second < b.second;
+    }
+    int gfgGame(int N, int G, vector<int> &require, vector<int> &recieve) {
+        int ans = 0;
+        vector<pair<int, int>> vec;
+        for(int i = 0; i < N; i++){
+            int diff = require[i] - recieve[i];
+            pair<int, int>p = make_pair(require[i], diff);
+            vec.push_back(p);
+        }
+        sort(vec.begin(), vec.end(), compare);
+        int i = 0;
+        while(G >= 0 && i < N){
+            if(vec[i].first <= G){
+                int xx = ((G - vec[i].first)/vec[i].second) + 1;
+                G = G - xx*vec[i].second;
+                ans += xx;
+		}
+            i++;
+        }
+        return ans;
+    }
+};
+
+
+
+
+										OR USING PROIRITY QUEUE
+
+class Solution {
+  public:
+    int gfgGame(int N, int G, vector<int> &require, vector<int> &recieve) {
+        int ans = 0;
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq; 
+        for(int i = 0; i < N; i++){
+            int diff = require[i] - recieve[i];
+            pq.push( {diff, require[i]} );
+        }
+        while(G >0 && !pq.empty()){
+            auto it = pq.top();
+            pq.pop();
+            if(G >= it.second){
+                int rounds = ((G - it.second)/it.first) + 1;
+                G -= rounds*it.first;
+                ans += rounds;
+            }
+        }
+        return ans;
+    }
+};

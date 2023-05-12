@@ -1,0 +1,28 @@
+class Solution {
+  public:
+    void solve(vector<int> &arr, vector<int> &freq, vector<int> &ds, vector<vector<int>> &ans){
+        if(ds.size() == arr.size()){
+            ans.push_back(ds);
+        }
+        for(int i = 0; i < arr.size(); i++){
+                if(!freq[i]){
+                    ds.push_back(arr[i]);
+                    freq[i] = 1;
+                    solve(arr, freq, ds, ans);
+                    freq[i] = 0;
+                    ds.pop_back();
+                }
+            }
+        }
+    vector<vector<int>> uniquePerms(vector<int> arr ,int n) {
+        vector<vector<int>> ans;
+        vector<int> ds;
+        vector<int> freq(n, 0);
+        solve(arr, freq, ds, ans);
+        set<vector<int>>st(ans.begin(), ans.end());
+        ans.clear();
+        for(auto it : st)ans.push_back(it);
+        
+        return ans;
+    }
+};

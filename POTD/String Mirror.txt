@@ -1,0 +1,21 @@
+class Solution{
+public:
+    string stringMirror(string str){
+        int n = str.size();
+        int i = 1;
+        string ans = "";
+        ans += str[0];
+        if(str[0] == str[1]){
+            ans += str[0];
+            return ans;
+        }
+        while(str[i] <= str[i - 1]){
+            ans += str[i];
+            i++;
+        }
+        string rev = ans;
+        reverse(rev.begin(), rev.end());
+        ans += rev;
+        return ans;
+    }
+};

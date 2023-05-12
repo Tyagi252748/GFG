@@ -1,0 +1,70 @@
+class Solution
+{
+    public:
+    //Function to check if a string can be obtained by rotating
+    //another string by exactly 2 places.
+    bool isRotated(string str1, string str2)
+    {
+        if(str1.size() == 1 && str2.size() == 1){
+            if(str1 == str2)return true;
+            else return false;
+        }
+        string b1 = str1.substr(str1.size() - 2, str1.size());
+        string b2 = str1.substr(0, str1.size() - 2);
+        string b3 = b1 + b2;
+        if(b3 == str2)return true;
+        
+        b1 = str1.substr(2, str1.size());
+        b2 = str1.substr(0,2);
+        b3 = b1 + b2;
+        if(b3 == str2)return true;
+        
+        return false;
+    }
+};
+
+
+								OR BETTER SOLUTION WITH SPACE COMPLEXITY OF O(1)
+
+
+
+class Solution
+{
+    public:
+    //Function to check if a string can be obtained by rotating
+    //another string by exactly 2 places.
+    bool isRotated(string str1, string str2)
+    {
+        int n1 = str1.size();
+        int n2 = str2.size();
+        bool ans1 = true;
+        bool ans2 = true;
+        if(str1[0] == str2[n2 - 2]){
+            int j = n2 - 2;
+            for(int i = 0; i < n1; i++){
+                if(str1[i] != str2[j]){
+                    ans1 = false;
+                    break;
+                }
+                else{
+                    j++;
+                    if(j == n2)j = 0;
+                }
+            }
+        }else ans1 = false;
+        if(str1[0] == str2[2]){
+            int j = 2;
+            for(int i = 0; i < n1; i++){
+                if(str1[i] != str2[j]){
+                    ans2 = false;
+                    break;
+                }
+                else{
+                    j++;
+                    if(j == n2)j = 0;
+                }
+            }
+        }else ans2 = false;
+        return ans1 | ans2;
+    }
+};

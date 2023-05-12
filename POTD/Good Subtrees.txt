@@ -1,0 +1,24 @@
+class Solution{
+public:
+    unordered_map<int, int> help(Node *root, int k, int &ans){
+        unordered_map<int, int> mm, mm1, mm2;
+        if(root->left){
+            mm1 = help(root->left, k, ans);
+        }
+        if(root->right){
+            mm2 = help(root->right, k, ans);
+        }
+        if(mm1.size() > k)return mm1;
+        if(mm2.size() > k)return mm2;
+        mm[root->data]++;
+        for(auto it : mm1)mm[it.first] += it.second;
+        for(auto it : mm2)mm[it.first] += it.second;
+        if(mm.size() <= k)ans++;
+        return mm;
+    }
+    int goodSubtrees(Node *root,int k){
+        int ans = 0;
+        help(root, k, ans);
+        return ans;
+    }
+};

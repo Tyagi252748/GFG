@@ -1,0 +1,53 @@
+class Solution
+{
+    public:
+    vector<int> prefix_sum(string s){
+        int n = s.length();
+        int len = 0;
+        int i = 1;
+        vector<int>pi(n);
+        pi[0] = 0;
+        while(i < n){
+            if(s[i] == s[len]){
+                len++;
+                pi[i] = len;
+                i++;
+            }else{
+                if(len != 0){
+                    len = pi[len - 1];
+                }else{
+                    pi[i] = 0;
+                    i++;
+                }
+            }
+        }
+        return pi;
+    }
+        vector <int> search(string pat, string txt)
+        {
+            vector<int> ans;
+            vector<int> prefix = prefix_sum(pat);
+            int pos = -1;
+            int i = 0;
+            int j = 0;
+            while(i < txt.size()){
+                if(txt[i] == pat[j]){
+                    i++;
+                    j++;
+                }else{
+                    if(j != 0){
+                        j = prefix[j - 1];
+                    }else{
+                        i++;
+                    }
+                }
+                if(j == pat.size()){
+                    pos = i - pat.size();
+                    ans.push_back(pos + 1);
+                }
+                
+            }
+            return ans;
+        }
+     
+};

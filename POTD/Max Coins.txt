@@ -1,0 +1,30 @@
+class Solution{
+public:
+    int maxCoins(int n,vector<vector<int>> &ranges){
+        sort(ranges.begin(), ranges.end());
+        vector<int> temp(n);
+        temp[n - 1] = ranges[n - 1][2];
+        for(int i = n - 2; i >= 0; i--){
+            temp[i] = max(temp[i + 1], ranges[i][2]);
+        }
+        int ans = INT_MIN;
+        for(int i = 0; i < n; i++){
+            int s = i + 1;
+            int e = n - 1;
+            int coins = ranges[i][2];
+            int can_pick = 0;
+            while(s <= e){
+                int mid = s + (e - s)/2;
+                if(ranges[mid][0] >= ranges[i][1]){
+                    can_pick = temp[mid];
+                    e = mid - 1;
+                }else{
+                    s = mid + 1;
+                }
+            }
+            coins += can_pick;
+            ans = max(ans, coins);
+        }
+        return ans;
+    }
+};

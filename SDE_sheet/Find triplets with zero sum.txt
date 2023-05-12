@@ -1,0 +1,23 @@
+class Solution{
+  public:
+    //Function to find triplets with zero sum.
+    bool findTriplets(int arr[], int n)
+    { 
+        sort(arr, arr+n);
+        for(int i = 0; i < n; i++){
+            if(i == 0 || arr[i] != arr[i - 1]){
+                int num = arr[i];
+                int req = 0 - num;
+                int s = i + 1;
+                int e = n - 1;
+                while(s < e){
+                    if(arr[s] + arr[e] == req){
+                        return true;
+                    }else if(arr[s] + arr[e] < req)s++;
+                    else e--;
+                }
+            }
+        }
+        return false;
+    }
+};

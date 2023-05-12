@@ -1,0 +1,44 @@
+class Solution{
+  public:
+    Node *getmid(Node *head){
+        Node *slow = head;
+        Node *fast = head;
+        while(fast->next != NULL && fast->next->next != NULL){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        return slow;
+    }
+    Node *merge(Node *head1, Node *head2){
+        Node *dummyhead = new Node(0);
+        Node *tail = dummyhead;
+        Node *ptr1 = head1;
+        Node *ptr2 = head2;
+        while(ptr1 != NULL && ptr2 != NULL){
+            if(ptr1->data < ptr2->data){
+                tail->next = ptr1;
+                ptr1 = ptr1->next;
+                tail = tail->next;
+            }else{
+                tail->next = ptr2;
+                ptr2 = ptr2->next;
+                tail = tail->next;
+            }
+        }
+        tail->next = (ptr1 != NULL) ? ptr1 : ptr2;
+        
+        return dummyhead->next;
+    }
+    //Function to sort the given linked list using Merge Sort.
+    Node* mergeSort(Node* head) {
+        if(head == NULL || head->next == NULL)return head;
+        
+        Node *mid = getmid(head);
+        Node *newHead = mid->next;
+        mid->next = NULL;
+        
+        Node *first = mergeSort(head);
+        Node *second = mergeSort(newHead);
+        return merge(first, second);
+    }
+};

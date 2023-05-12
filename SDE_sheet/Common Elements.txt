@@ -1,0 +1,18 @@
+class Solution{
+    public:
+        vector<int> common_element(vector<int>v1,vector<int>v2)
+    {
+        vector<int>ans;
+        unordered_map<int, int> mp;
+        for(auto it : v1)mp[it]++;
+        sort(v2.begin(), v2.end());
+        for(auto it : v2){
+            if(mp.find(it) != mp.end()){
+                ans.push_back(it);
+                mp[it]--;
+                if(mp[it] == 0)mp.erase(it);
+            }
+        }
+        return ans;
+    }
+};

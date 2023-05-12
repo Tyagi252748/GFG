@@ -1,0 +1,20 @@
+class Solution{
+public:
+    bool makePalindrome(int n,vector<string> &arr){
+        unordered_map<string, int> mp;
+        for(auto it : arr)mp[it]++;
+        int odd = 0;
+        
+        for(auto it : mp){
+            string temp = it.first;
+            reverse(temp.begin(), temp.end());
+            if(it.first == temp){
+                if(it.second%2)odd++;
+                if(odd > 1)return false;
+            }else{
+                if(it.second != mp[temp])return false;
+            }
+        }
+        return true;
+    }
+};

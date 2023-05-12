@@ -1,0 +1,28 @@
+class Solution {
+  public:
+    int findTargetSumWays(vector<int>&A ,int target) {
+        int n = A.size();
+        int sum = 0;
+        for(auto it : A)sum += it;
+        int tar = (sum - target)/2;
+        
+        if(sum - target < 0 || (sum - target)%2 != 0)return 0;
+        
+        vector<vector<int>>dp(n, vector<int>(tar + 1, 0));
+        if(A[0] == 0)dp[0][0] = 2;
+        else dp[0][0] = 1;
+        
+        if(A[0] != 0 && A[0] <= tar)dp[0][A[0]] = 1;
+        
+        for(int i = 1; i < n; i++){
+            for(int j = 0; j <= tar; j++){
+                int notTake = dp[i - 1][j];
+                int take = 0;
+                if(A[i] <= j)take = dp[i - 1][j - A[i]];
+                
+                dp[i][j] = take + notTake;
+            }
+        }
+        return dp[n - 1][tar];
+    }
+};

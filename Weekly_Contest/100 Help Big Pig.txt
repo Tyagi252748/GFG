@@ -1,0 +1,39 @@
+class Solution {
+  public:
+    int bs(vector<long long> &diff, int target){
+        int s = 0;
+        int e = diff.size() - 1;
+        int ans = -1;
+        if(target == 0)return 0;
+        if(target > diff[e])return ans;
+        while(s <= e){
+            int mid = s + (e - s)/2;
+            if(diff[mid] >= target){
+                ans = mid;
+                e = mid - 1;
+            }else{
+                s = mid + 1;
+            }
+        }
+        return ans + 1;
+    }
+    vector<int> findMin(int n, int q, vector<int> &gain, vector<int> &loss, vector<int> &query) {
+        vector<long long> diff;
+        int max_sum = 0;
+        for(int i = 0; i < n; i++){
+            if(gain[i] >= loss[i] ){
+                diff.push_back(gain[i] - loss[i]);
+            }
+        }
+        sort(diff.begin(), diff.end(), greater<int>());
+        for(int i = 1; i < diff.size(); i++){
+            diff[i] = diff[i] + diff[i - 1];
+        }
+        vector<int> ans;
+        for(int i = 0; i < q; i++){
+            int idx = bs(diff, query[i]);
+            ans.push_back(idx);
+        }
+        return ans;
+    }
+};

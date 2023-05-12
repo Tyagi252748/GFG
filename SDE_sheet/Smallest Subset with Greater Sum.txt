@@ -1,0 +1,22 @@
+class Solution{
+    public:
+    int minSubset(vector<int> &Arr,int N){
+        if(N == 1)return 1;
+        long long sum = 0;
+        for(auto it : Arr){
+            sum += it;
+        }
+        sort(Arr.begin(), Arr.end());
+        long long sum2 = 0;
+        int cnt = 0;
+        int j = N - 1;
+        while(j > 0){
+            sum2 += Arr[j];
+            sum -= Arr[j];
+            cnt++;
+            j--;
+            if(sum2 > sum)break;
+        }
+        return cnt;
+    }
+};

@@ -1,0 +1,30 @@
+class Solution{
+	public:
+	string fractionToDecimal(int numerator, int denominator) {
+	    string ans = "";
+	    int q = numerator/denominator;
+	    int r = numerator%denominator;
+	    ans.append(to_string(q));
+	    if(r == 0){
+	        return ans;
+	    }else{
+	        ans.append(".");
+	        unordered_map<int , int>mp;
+	        while(r != 0){
+	            if(mp.find(r) != mp.end()){
+	                int pos = mp[r];
+	                ans.insert(pos, "(");
+	                ans.append(")");
+	                break;
+	            }else{
+	                mp[r] = ans.size();
+	                r*= 10;
+	                q = r/denominator;
+	                r = r%denominator;
+	                ans.append(to_string(q));
+	            }
+	        }
+	    }
+	    return ans;
+	}
+};

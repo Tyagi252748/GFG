@@ -1,0 +1,21 @@
+class Solution{   
+public:
+    int countPaths(int N){
+        long mod = 1e9+7;
+        long O = 1;
+        long A = 0;
+        long B = 0;
+        long C = 0;
+        for(int i = 1; i <= N; i++){
+            int temp1 = (A + B + C)%mod;
+            int temp2 = (O + B + C)%mod;
+            int temp3 = (A + O + C)%mod;
+            int temp4 = (A + B + O)%mod;
+            O = temp1;
+            A = temp2;
+            B = temp3;
+            C = temp4;
+        }
+        return O;
+    }
+};

@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<int> prefix_sum(string s){
+        int n = s.length();
+        int len = 0;
+        int i = 1;
+        vector<int>pi(n);
+        pi[0] = 0;
+        while(i < n){
+            if(s[i] == s[len]){
+                len++;
+                pi[i] = len;
+                i++;
+            }else{
+                if(len != 0){
+                    len = pi[len - 1];
+                }else{
+                    pi[i] = 0;
+                    i++;
+                }
+            }
+        }
+        return pi;
+    }
+    int minChar(string str){
+        string rev = str;
+        reverse(rev.begin(), rev.end());
+        string c = str+"$"+rev;
+        vector<int> lps = prefix_sum(c);
+        int ans = str.length() - lps.back();
+        return ans;
+    }
+};

@@ -1,0 +1,33 @@
+class Solution {
+  public:
+
+    long long dfs(int node, int parent, int depth, vector<long long> &size, 
+                  vector<long long> &list, vector<vector<int>> &adj){
+        size[node] = 1;
+        for(auto it : adj[node]){
+            if(it != parent){
+                size[node] += dfs(it, node, 1 + depth, size, list, adj);
+            }
+        }
+        list.push_back(size[node] - depth);
+        return size[node];
+    }
+    long long findMaxSnacks(int n, int m, vector<vector<int>> &edges) {
+        vector<long long>list;
+        vector<long long> size(n + 1);
+        vector<vector<int>>adj(n + 1);
+
+        for(auto it : edges){
+            adj[it[0]].push_back(it[1]);
+            adj[it[1]].push_back(it[0]);
+        }
+
+        long long ans = 0;
+        dfs(1, -1, 1, size, list, adj);
+        sort(list.begin(), list.end(), greater<int>());
+        for(int i = 0; i < n - m; i++){
+            ans += list[i];
+        }
+        return ans;
+    }
+};
