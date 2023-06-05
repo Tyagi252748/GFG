@@ -1,0 +1,77 @@
+class DisjointSet{
+    public:
+    vector<int> parent, size;
+    DisjointSet(int n){
+        parent.resize(n + 1);
+        size.resize(n + 1, 1);
+        for(int i = 0; i <= n; i++){
+            parent[i] = i;
+        }
+    }
+    int findPar(int node){
+        if(parent[node] == node)return node;
+    
+        return parent[node] = findPar(parent[node]);
+
+    }
+    void unionbySize(int u, int v){
+        int par_u = findPar(u);
+        int par_v = findPar(v);
+        if(par_u == par_v)return;
+        if(size[par_u] < size[par_v]){
+            parent[par_u] = par_v;
+            size[par_v] += size[par_u];
+        }else{
+            parent[par_v] = par_u;
+            size[par_u] += size[par_v];            
+        }
+    }
+};
+class Solution {
+  public:
+    int MaxConnection(vector<vector<int>>& grid) {
+        int n = grid.size();
+        DisjointSet ds(n * n);
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                if(grid[i][j] == 0)continue;
+                int dr[4] = {-1, 1, 0, 0};
+                int dc[4] = {0 ,0, -1, 1};
+                for(int k = 0; k < 4; k++){
+                    int nr = i + dr[k];
+                    int nc = j + dc[k];
+                    if(nr >= 0 && nr < n && nc >= 0 && nc < n && grid[nr][nc] == 1){
+                        int node = i*n + j;
+                        int adjnode = nr*n + nc;
+                        ds.unionbySize(node, adjnode);
+                    }
+                }
+            }
+        }
+        int ans = 0;
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                if(grid[i][j] == 1)continue;
+                set<int> st;
+                int dr[4] = {-1, 1, 0, 0};
+                int dc[4] = {0 ,0, -1, 1};
+                for(int k = 0; k < 4; k++){
+                    int nr = i + dr[k];
+                    int nc = j + dc[k];
+                    if(nr >= 0 && nr < n && nc >= 0 && nc < n && grid[nr][nc] == 1){
+                        int adjnode = nr*n + nc;
+                        st.insert(ds.findPar(adjnode));
+                    }
+                }
+                int cnt = 0;
+                for(auto it : st)cnt += ds.size[it];
+                ans = max(ans, cnt + 1);
+                
+            }
+        }
+        for(int cell = 0; cell < n*n; cell++){
+            ans = max(ans, ds.size[ds.findPar(cell)]);
+        }
+        return ans;
+    }
+};

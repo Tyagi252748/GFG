@@ -1,0 +1,104 @@
+										USING BFS
+
+
+class Solution {
+    public:
+    int closedIslands(vector<vector<int>>& matrix, int N, int M) {
+        int vis[N][M] = {0};
+        queue<pair<int, int>> q;
+        for(int i = 0; i < N; i++){
+            if(matrix[i][0] == 1){
+                q.push({i, 0});
+                matrix[i][0] = 0;
+            }
+            if(matrix[i][M - 1] == 1){
+                q.push({i, M - 1});
+                matrix[i][M - 1] = 0;
+            }
+        }
+        for(int j = 0; j < M; j++){
+            if(matrix[0][j] == 1){
+                q.push({0, j});
+                matrix[0][j] = 0;
+            }
+            if(matrix[N - 1][j] == 1){
+                q.push({N - 1, j});
+                matrix[N - 1][j] = 0;
+            }
+        }
+        int delr[4] = {-1, 1, 0, 0};
+        int delc[4] = {0, 0, -1, 1};
+        while(!q.empty()){
+            int r = q.front().first;
+            int c = q.front().second;
+            q.pop();
+            for(int i = 0; i < 4; i++){
+                int nr = r + delr[i];
+                int nc = c + delc[i];
+                if(nr >= 0 && nr < N && nc >= 0 && nc < M && matrix[nr][nc] == 1){
+                    q.push({nr, nc});
+                    matrix[nr][nc] = 0;
+                }
+            }
+        }
+        int ans = 0;
+        for(int i = 0; i < N; i++){
+            for(int j = 0; j < M; j++){
+                if(matrix[i][j] == 1){
+                    ans++;s
+                    q.push({i, j});
+                    matrix[i][j] = 0;
+                    while(!q.empty()){
+                        int r = q.front().first;
+                        int c = q.front().second;
+                        q.pop();
+                        for(int i = 0; i < 4; i++){
+                            int nr = r + delr[i];
+                            int nc = c + delc[i];
+                            if(nr >= 0 && nr < N && nc >= 0 && nc < M && matrix[nr][nc] == 1){
+                                q.push({nr, nc});
+                                matrix[nr][nc] = 0;
+                            }   
+                        }                
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+};
+
+
+
+									OR USING DFS
+
+class Solution {
+    public:
+    void DFS(int i, int j, vector<vector<int>>& matrix, int N, int M){
+        if(i < 0 || i >= N || j < 0 || j >= M || matrix[i][j] == 0)return; 
+        matrix[i][j] = 0;
+        DFS(i + 1, j, matrix, N, M);
+        DFS(i - 1, j, matrix, N, M);
+        DFS(i, j + 1, matrix, N, M);
+        DFS(i, j - 1, matrix, N, M);
+    }
+    int closedIslands(vector<vector<int>>& matrix, int N, int M) {
+        for(int i = 0; i < N; i++){
+            for(int j = 0; j < M; j++){
+                if(i == 0 || i == N - 1 || j == 0 || j == M - 1){
+                    DFS(i, j, matrix, N, M);
+                }
+            }
+        }
+        int ans = 0;
+        for(int i = 0; i < N; i++){
+            for(int j = 0; j < M; j++){
+                if(matrix[i][j] == 1){
+                    ans++;
+                    DFS(i, j, matrix, N, M);
+                }
+            }
+        }
+        return ans;
+    }
+};

@@ -1,0 +1,15 @@
+class Solution{
+    public:
+    long long refueling(int X)
+    {
+        long long ans;
+        long long station1 = 1;
+        while(station1 < X){
+            station1 = station1*2;
+        }
+        long long station2 = station1/2;
+        long long dis1 = station1 - X;
+        long long dis2 = X - station2;
+        return ans = (dis1 <= dis2) ? station1 : station2;
+    }
+};

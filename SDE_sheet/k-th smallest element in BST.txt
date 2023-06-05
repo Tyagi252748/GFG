@@ -1,0 +1,21 @@
+class Solution {
+  public:
+    // Return the Kth smallest element in the given BST
+    void Inorder_traversal(Node*root,vector <int> &in)
+    {
+        if(root != NULL){
+            Inorder_traversal(root->left,in);
+            in.push_back(root->data);
+            Inorder_traversal(root->right,in);
+        }
+    }
+    int KthSmallestElement(Node *root, int K) {
+        vector <int> inorder;
+        if(root != NULL){
+            Inorder_traversal(root,inorder);
+            
+        }
+        if(K > inorder.size())return -1;
+        return inorder[K-1];
+    }
+};

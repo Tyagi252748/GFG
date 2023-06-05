@@ -1,0 +1,28 @@
+class Solution
+{
+  public:
+    string reverseEqn (string s)
+        {
+            stack<char> st;
+            for(auto it : s){
+                st.push(it);
+            }
+            string ans = "";
+            string temp = "";
+            while(st.size() > 0){
+                if(st.top() == '+' || st.top() == '-' || st.top() == '*' || st.top() == '/'){
+                    reverse(temp.begin(), temp.end());
+                    ans += temp;
+                    ans += st.top();
+                    temp = "";
+                }
+                else{
+                    temp += st.top();
+                }
+                st.pop();
+            }
+            reverse(temp.begin(), temp.end());
+            ans += temp;
+            return ans;
+        }
+};

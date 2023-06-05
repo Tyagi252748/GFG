@@ -1,0 +1,17 @@
+int findMaxForN(Node* root, int N)
+{
+    if (root == NULL) return -1;
+    int flr = -1;
+    while(root){
+        if(N == root->key){
+            flr = root->key;
+            return flr;
+        }else if(N > root->key){
+            flr = root->key;
+            root = root->right;
+        }else{
+            root = root->left;
+        }
+    }
+    return flr;
+}

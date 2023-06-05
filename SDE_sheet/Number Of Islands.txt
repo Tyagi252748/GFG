@@ -1,0 +1,69 @@
+class DisjointSet{
+    public:
+    vector<int> parent, size;
+    DisjointSet(int n){
+        parent.resize(n + 1);
+        size.resize(n + 1, 1);
+        for(int i = 0; i <= n; i++){
+            parent[i] = i;
+        }
+    }
+    int findPar(int node){
+        if(parent[node] == node)return node;
+    
+        return parent[node] = findPar(parent[node]);
+
+    }
+    void unionbySize(int u, int v){
+        int par_u = findPar(u);
+        int par_v = findPar(v);
+        if(par_u == par_v)return;
+        if(size[par_u] < size[par_v]){
+            parent[par_u] = par_v;
+            size[par_v] += size[par_u];
+        }else{
+            parent[par_v] = par_u;
+            size[par_u] += size[par_v];            
+        }
+    }
+};
+class Solution {
+  public:
+    vector<int> numOfIslands(int n, int m, vector<vector<int>> &operators) {
+        DisjointSet ds(n*m);
+        vector<vector<int>> vis(n, vector<int>(m, 0));
+        int cnt = 0;
+        vector<int> ans;
+        for(auto it : operators){
+            int row = it[0];
+            int clm = it[1];
+            
+            if(vis[row][clm] == 1){
+                ans.push_back(cnt);
+                continue;
+            }
+            
+            vis[row][clm] = 1;
+            cnt++;
+            
+            int dr[4] = {-1, 1, 0, 0};
+            int dc[4] = {0, 0, -1, 1};
+            
+            for(int i = 0; i < 4; i++){
+                int nr = row + dr[i];
+                int nc = clm + dc[i];
+                
+                if(nr >= 0 && nr < n && nc >= 0 && nc < m && vis[nr][nc] == 1){
+                    int node = row*m + clm;
+                    int adjnode = nr*m + nc;
+                    if(ds.findPar(node) != ds.findPar(adjnode)){
+                        cnt--;
+                        ds.unionbySize(node, adjnode);
+                    }
+                }
+            }
+            ans.push_back(cnt);
+        }
+        return ans;
+    }
+};

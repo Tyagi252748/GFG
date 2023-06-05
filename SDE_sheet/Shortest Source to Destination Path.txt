@@ -1,0 +1,33 @@
+class Solution {
+  public:
+    int shortestDistance(int N, int M, vector<vector<int>> A, int X, int Y) {
+        if(X == 0 && Y == 0)return 0;
+        if(A[0][0] == 0)return -1;
+	    queue<pair<int, int>> q;
+	    vector<vector<int>>vis(N, vector<int>(M, 0));
+	    q.push( {0, 0} );
+	    vis[0][0] = 1;
+	    int delr[4] = {-1, 1, 0, 0};
+	    int delc[4] = {0, 0, -1, 1};
+	    int step = 1;
+	    while(!q.empty()){
+	        int size = q.size();
+	        while(size--){
+	            int r = q.front().first;
+	            int c = q.front().second;
+	            q.pop();
+	            for(int i = 0; i < 4; i++){
+	                int nr = r + delr[i];
+	                int nc = c + delc[i];
+	                if(nr >= 0 && nr < N && nc >= 0 && nc < M && A[nr][nc] == 1 && !vis[nr][nc]){
+	                    if(nr == X && nc == Y)return step;
+	                    q.push({nr, nc});
+	                    vis[nr][nc] = 1;
+	                }
+	            }
+	        }
+	        step++;
+	    }
+	    return -1;
+    }
+};

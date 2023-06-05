@@ -1,0 +1,25 @@
+class Solution {
+  public:
+    int lis(vector<int> & v){
+        vector<int> temp;
+        if(v.size() > 0)temp.push_back(v[0]);
+        
+        for(int i = 1; i < v.size(); i++){
+            if(v[i] > temp.back())temp.push_back(v[i]);
+            else{
+                int idx = lower_bound(temp.begin(), temp.end(), v[i]) - temp.begin();
+                temp[idx] = v[i];
+            }
+        }
+        return temp.size();
+    }
+    int minInsAndDel(int A[], int B[], int N, int M) {
+        vector<int> tp;
+        for(int i = 0; i < N; i++){
+            if(binary_search(B, B + M, A[i])){
+                tp.push_back(A[i]);
+            }
+        }
+        return N + M - (2 * lis(tp));
+    }
+};

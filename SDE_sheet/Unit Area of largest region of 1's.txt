@@ -1,0 +1,42 @@
+class Solution
+{
+    public:
+    //Function to find unit area of the largest region of 1s.
+    void BFS(int i, int j, int n, int m, int &size, vector<vector<int>>& grid, vector<vector<int>>& vis){
+        queue<pair<int, int>>q;
+        q.push({i, j});
+        vis[i][j] = 1;
+        int delr[8] = {-1, -1, -1, 0, 0, 1, 1, 1};
+        int delc[8] = {-1, 0, 1, -1, 1, -1, 0, 1};
+        while(!q.empty()){
+            int r = q.front().first;
+            int c = q.front().second;
+            q.pop();
+            for(int i = 0; i < 8; i++){
+                int nr = r + delr[i];
+                int nc = c + delc[i];
+                if(nr >= 0 && nr < n && nc >= 0 && nc < m && grid[nr][nc] == 1 && !vis[nr][nc]){
+                    vis[nr][nc] = 1;
+                    size++;
+                    q.push({nr, nc});
+                }
+            }
+        }
+    }
+    int findMaxArea(vector<vector<int>>& grid) {
+        int n = grid.size();
+        int m = grid[0].size();
+        vector<vector<int>>vis(n, vector<int>(m, 0));s
+        int ans = 0;
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                if(grid[i][j] == 1 && !vis[i][j]){
+                    int size = 1;
+                    BFS(i, j, n, m, size, grid, vis);
+                    ans = max(ans, size);
+                }
+            }
+        }
+        return ans;
+    }
+};

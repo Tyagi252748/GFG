@@ -1,0 +1,47 @@
+class Solution{
+    public:
+    int mod = 1e9+7;
+    int solve(int num, int n, int x, vector<vector<int>> &dp){
+        if(n == 0)return 1;
+        if(num > n || n < 0)return 0;
+        if(dp[n][num] != -1)return dp[n][num];
+        
+        int power = pow(num, x);
+        
+        dp[n][num] = (solve(num + 1, n - power, x, dp) + solve(num + 1, n, x, dp))%mod;
+        return dp[n][num];
+    }
+    int numOfWays(int n, int x)
+    {
+        vector<vector<int>>dp(n+1, vector<int>(n + 1, -1));
+        return solve(1, n, x, dp);
+    }
+};
+
+
+
+							OR
+
+
+class Solution{
+    public:
+    int mod = 1e9+7;
+    int solve(int num, int n, int x, vector<vector<int>> &dp){
+        if(n == 0)return 1;
+        if(num > n || n < 0)return 0;
+        if(dp[n][num] != -1)return dp[n][num];
+        
+        int power = pow(num, x);
+        int notTake = (solve(num + 1, n, x, dp))%mod;
+        int take = 0;
+        if(power <= n){
+            take = (solve(num + 1, n - power, x, dp))%mod;
+        }
+        return dp[n][num] = (take + notTake)%mod;
+    }
+    int numOfWays(int n, int x)
+    {
+        vector<vector<int>>dp(n+1, vector<int>(n + 1, -1));
+        return solve(1, n, x, dp);
+    }
+};

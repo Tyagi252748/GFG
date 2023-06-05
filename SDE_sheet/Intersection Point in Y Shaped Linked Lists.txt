@@ -1,0 +1,14 @@
+int intersectPoint(Node* head1, Node* head2)
+{
+    Node* a = head1;
+    Node* b = head2;
+    while(a != b){
+        if(a == NULL)a = head2;
+        a = a->next;
+        
+        if(b == NULL)b = head1;
+        b = b->next;
+    }
+    if(a) return a->data;
+    return -1;
+}

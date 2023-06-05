@@ -1,0 +1,29 @@
+class Solution{
+public:
+    int isPossible(int n, int m, string s){
+        int sz = s.size();
+        int min_row = 0;
+        int max_row = 0;
+        int min_clm = 0;
+        int max_clm = 0;
+        int row = 0;
+        int clm = 0;
+        for(int i = 0; i < sz; i++){
+            if(s[i] == 'L'){
+                clm--;
+                min_clm = min(min_clm, clm);
+            }else if(s[i] == 'R'){
+                clm++;
+                max_clm = max(max_clm, clm);
+            }else if(s[i] == 'U'){
+                row++;
+                max_row = max(max_row, row);
+            }else if(s[i] == 'D'){
+                row--;
+                min_row = min(min_row, row);
+            }
+        }
+        if(max_row - min_row < n && max_clm - min_clm < m)return 1;
+        return 0;
+    }
+};

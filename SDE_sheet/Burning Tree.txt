@@ -1,0 +1,62 @@
+class Solution {
+  public:
+    int findTime(Node* start, unordered_map<Node*, Node*>& parent_track){
+        queue<Node*> q;
+        q.push(start);
+        map<Node*, int> vis;
+        vis[start] = 1;
+        int maxi = 0;
+        while(!q.empty()){
+            int size = q.size();
+            int t1 = 0;
+            while(size--){
+                Node* node = q.front();
+                q.pop();
+                
+                if(node->left && !vis[node->left]){
+                    t1 = 1;
+                    vis[node->left] = 1;
+                    q.push(node->left);
+                }
+                if(node->right && !vis[node->right]){
+                    t1 = 1;
+                    vis[node->right] = 1;
+                    q.push(node->right);
+                }
+                if(parent_track[node] && !vis[parent_track[node]]){
+                    t1 = 1;
+                    vis[parent_track[node]] = 1;
+                    q.push(parent_track[node]);
+                }
+            }
+            if(t1)maxi++;
+        }
+        return maxi;
+    }
+    Node* findparent(Node* root, unordered_map<Node*, Node*>& parent_track, int target){
+        queue<Node*> q;
+        q.push(root);
+        Node* res = NULL;
+        while(!q.empty()){
+            Node* node = q.front();
+            if(node->data == target)res = node;
+            q.pop();
+            if(node->left){
+                parent_track[node->left] = node;
+                q.push(node->left);
+            }
+            if(node->right){
+                parent_track[node->right] = node;
+                q.push(node->right);
+            }
+        }
+        return res;
+    }
+    int minTime(Node* root, int target) 
+    {
+        unordered_map<Node*, Node*>parent_track;
+        Node* start = findparent(root, parent_track, target);
+        int ans = findTime(start, parent_track);
+        return ans;
+    }
+};
